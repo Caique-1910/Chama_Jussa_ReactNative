@@ -1,8 +1,20 @@
 import { Image, Pressable, StyleSheet, Text, TextInput, View } from "react-native"
 import { Colors, Fontes, TamanhoTitulo } from "../../constants/theme"
+import { useRouter } from "expo-router"
 
 
-export const Login = () => {
+export default function Login(){
+
+    const router = useRouter();
+
+    function acessar(){
+        // alert("boa safado")
+        // router.navigate("/listagem");
+        router.push("/listagem");
+        // router.replace("/listagem");
+    }
+
+
     return (
         <View style={styles.container}>
             <Image style={styles.img} source={require('../../../assets/imgs/logo.png')}
@@ -24,7 +36,7 @@ export const Login = () => {
                     <TextInput style={styles.input} placeholder="Digite sua senha"
                         placeholderTextColor="#7D7D7D" secureTextEntry />
                 </View>
-                <Pressable style={styles.btn}><Text style={styles.txtBtn}>Acessar o sistema</Text></Pressable>
+                <Pressable onPress={acessar} style={styles.btn}><Text style={styles.txtBtn}>Acessar o sistema</Text></Pressable>
             </View>
         </View>
     )

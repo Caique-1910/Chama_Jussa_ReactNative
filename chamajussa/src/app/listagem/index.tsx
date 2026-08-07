@@ -2,7 +2,7 @@ import { Image, Pressable, StyleSheet, Text, TextInput, TouchableOpacity, View }
 import Navfooter from "../../components/navFooter/Navfooter"
 import Card from "../../components/card/Card"
 
-export const Listagem = () => {
+export default function Listagem(){
     return (
         <View style={styles.container}>
             <View style={styles.topo}>

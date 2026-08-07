@@ -1,10 +1,19 @@
+import { useRouter } from "expo-router"
 import { Image, Pressable, StyleSheet, Text, TextInput, TouchableOpacity, View } from "react-native"
 
-const Navfooter = () => {
+function Navfooter(){
+
+    const router = useRouter()
+
+    function acessarMinhasOs(){
+        router.replace("/listagem")
+    }
+
+
   return (
     <View style={styles.nav}>
 
-                <Pressable style={styles.btn_nav}>
+                <Pressable style={styles.btn_nav} onPress={acessarMinhasOs}>
                     <Image style={styles.img_btn}  source={require('../../../assets/imgs/minhas.png')} />
                     <Text>Minhas OS</Text>
                 </Pressable>

@@ -2,7 +2,8 @@ export const Colors ={
     corDeFundo: '#f3f4f6',
     corBtnVerde: '#10b981',
     corTxtBtn: '#FFFFFF',
-    corTxtSecun: '#7d7d7d'
+    corTxtSecun: '#7d7d7d',
+    corAzul: '#006FFF'
 }
 
 export const Fontes ={

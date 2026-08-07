@@ -1,8 +1,16 @@
-import { View, Text, StyleSheet } from 'react-native'
+import { useRouter } from 'expo-router';
+import { View, Text, StyleSheet, Pressable } from 'react-native'
 
-const Card = () => {
+function Card()  {
+
+    const router = useRouter();
+    function acessarDetalhes(){
+        router.replace("/detalhes")
+    }
+
     return (
         <View style={styles.card}>
+            <Pressable onPress={acessarDetalhes}>
             <View style={styles.topoCard}>
                 <Text style={styles.tituloCard}>OS - 001</Text>
                 <Text style={styles.textoStatus}>Aberta</Text>
@@ -11,6 +19,7 @@ const Card = () => {
                 <Text style={styles.tituloDescricao}>Vazamento hidráulico no Bloco B</Text>
                 <Text style={styles.textoDescricao}>Há um vazamento constante de água por baixo da pia do banheiro masculino do segundo andar do Bloco B...</Text>
             </View>
+            </Pressable>
         </View>
     )
 }
