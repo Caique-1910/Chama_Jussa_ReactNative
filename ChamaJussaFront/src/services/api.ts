@@ -1,0 +1,12 @@
+import axios from "axios";
+import { Platform } from "react-native";
+
+const host = Platform.OS === 'android' ? '10.0.2.2' : 'localhost'
+const porta = process.env.EXPO_PUBLIC_PORTA
+const enderecoApi = process.env.EXPO_PUBLIC_API_URL || `http://${host}:${porta}`;
+
+export const api = axios.create({
+    baseURL: enderecoApi,
+    timeout: 10000
+}
+)

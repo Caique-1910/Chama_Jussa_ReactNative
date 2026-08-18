@@ -1,22 +1,41 @@
-import { Image, Pressable, StyleSheet, Text, TextInput, TouchableOpacity, useWindowDimensions, View } from "react-native"
+import { Alert, Image, Pressable, StyleSheet, Text, TextInput, TouchableOpacity, useWindowDimensions, View } from "react-native"
 import { Button, ButtonText, Colors, Title, TitleLabel } from "../../constants/theme"
 import { useRouter } from "expo-router"
+import { useState } from "react";
+import { autenticacaoService } from "../../services/autenticacaoService";
 
 // export const Login = () => {
 export default function Login() {
+  const [email, setEmail] = useState("");
+  const [senha, setSenha] = useState("");
 
   const router = useRouter();
 
-  function acessar() {
+  async function acessar() {
     // alert("teste")
     //navigate e o push -> listagem de tela renderizadas
     //ou Adiciona uma nova tela em cima da pilha.
     // router.navigate("/listaOs")
-    router.push("/listaOs")
     // login -> listaOs
     //replace -> Substitui a tela atual.
     // router.replace("/listaOs")
     // listaOs
+    // router.push("/listaOs")
+
+    const emailDigitado = email.trim();
+    const senhaDigitada = email.trim();
+
+    if (!emailDigitado || !senhaDigitada) {
+      Alert.alert("Atencao !!!", "Por favor, preencha o email e senha");
+      return;
+    }
+    try {
+      await autenticacaoService.login({ email: emailDigitado, senha: senhaDigitada })
+      router.replace("/listaOs")
+    } catch (error) {
+      Alert.alert("Erro!!!", "Email ou senha invalidos");
+    }
+
   }
 
   return (
@@ -34,16 +53,15 @@ export default function Login() {
         <View style={estilos.inputGroup}>
           <Text style={estilos.label}>E-mail</Text>
           <TextInput style={estilos.input}
-            placeholder="Digite seu e-mail"></TextInput>
+            placeholder="Digite seu e-mail" value={email} onChangeText={setEmail}></TextInput>
         </View>
         <View style={estilos.inputGroup}>
           <Text style={estilos.label}>Senha</Text>
           <TextInput style={estilos.input}
             placeholder="Digite sua senha"
             secureTextEntry
-          // keyboardType="numeric"
-          // onChangeText={onChangeNumber}
-          // value={number}
+            value={senha}
+            onChangeText={setSenha}
           ></TextInput>
         </View>
         <TouchableOpacity style={estilos.btnLogin} onPress={acessar}>
