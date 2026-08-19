@@ -1,75 +1,104 @@
-import { Alert, Image, Pressable, StyleSheet, Text, TextInput, TouchableOpacity, useWindowDimensions, View } from "react-native"
-import { Button, ButtonText, Colors, Title, TitleLabel } from "../../constants/theme"
-import { useRouter } from "expo-router"
+import { ActivityIndicator, Alert, Image, StyleSheet, Text, TextInput, TouchableOpacity, View} from "react-native";
+import {Button,ButtonText,Colors,Title,TitleLabel} from "../../constants/theme";
+import { useRouter } from "expo-router";
 import { useState } from "react";
 import { autenticacaoService } from "../../services/autenticacaoService";
 
-// export const Login = () => {
 export default function Login() {
   const [email, setEmail] = useState("");
   const [senha, setSenha] = useState("");
+  const [loading, setLoading] = useState(false);
 
   const router = useRouter();
 
   async function acessar() {
-    // alert("teste")
-    //navigate e o push -> listagem de tela renderizadas
-    //ou Adiciona uma nova tela em cima da pilha.
-    // router.navigate("/listaOs")
-    // login -> listaOs
-    //replace -> Substitui a tela atual.
-    // router.replace("/listaOs")
-    // listaOs
-    // router.push("/listaOs")
-
     const emailDigitado = email.trim();
-    const senhaDigitada = email.trim();
+    const senhaDigitada = senha.trim();
 
-    if (!emailDigitado || !senhaDigitada) {
-      Alert.alert("Atencao !!!", "Por favor, preencha o email e senha");
-      return;
-    }
     try {
-      await autenticacaoService.login({ email: emailDigitado, senha: senhaDigitada })
-      router.replace("/listaOs")
-    } catch (error) {
-      Alert.alert("Erro!!!", "Email ou senha invalidos");
-    }
+      setLoading(true);
 
+      await autenticacaoService.login({
+        email: emailDigitado,
+        senha: senhaDigitada
+      });
+
+      router.replace("/listaOs");
+
+    } catch (err: any) {
+      const mensagem =
+        err?.response?.data?.message ||
+        "E-mail ou senha inválidos. Tente novamente.";
+
+      Alert.alert(
+        "Erro ao entrar",
+        typeof mensagem === "string"
+          ? mensagem
+          : "Erro inesperado."
+      );
+
+    } finally {
+      setLoading(false);
+    }
   }
 
   return (
     <View style={estilos.container}>
-      {/* <Image source={require('../../../assets/imgs/logo.svg')}
-        style={estilos.logo}/> */}
-      <Image source={require('../../../assets/imgs/logo.png')}
-        style={estilos.logo} />
+      <Image
+        source={require("../../../assets/imgs/logo.png")}
+        style={estilos.logo}
+      />
 
       <View style={estilos.form}>
         <View style={estilos.text}>
-          <Text style={estilos.title}>Chama Jussa</Text>
-          <Text style={estilos.subTitle}>Gerenciamento de Ordens de Serviço</Text>
+          <Text style={estilos.title}>
+            Chama Jussa
+          </Text>
+
+          <Text style={estilos.subTitle}>
+            Gerenciamento de Ordens de Serviço
+          </Text>
         </View>
+
         <View style={estilos.inputGroup}>
           <Text style={estilos.label}>E-mail</Text>
-          <TextInput style={estilos.input}
-            placeholder="Digite seu e-mail" value={email} onChangeText={setEmail}></TextInput>
+
+          <TextInput
+            style={estilos.input}
+            placeholder="Digite seu e-mail"
+            value={email}
+            onChangeText={setEmail}
+          />
         </View>
+
         <View style={estilos.inputGroup}>
           <Text style={estilos.label}>Senha</Text>
-          <TextInput style={estilos.input}
+
+          <TextInput
+            style={estilos.input}
             placeholder="Digite sua senha"
             secureTextEntry
             value={senha}
             onChangeText={setSenha}
-          ></TextInput>
+          />
         </View>
-        <TouchableOpacity style={estilos.btnLogin} onPress={acessar}>
-          <Text style={estilos.buttonText}>Acessar o sistema</Text>
+
+        <TouchableOpacity
+          style={estilos.btnLogin}
+          onPress={acessar}
+          disabled={loading}
+        >
+          {loading ? (
+            <ActivityIndicator color="#FFFFFF" />
+          ) : (
+            <Text style={estilos.buttonText}>
+              Acessar o sistema
+            </Text>
+          )}
         </TouchableOpacity>
       </View>
     </View>
-  )
+  );
 }
 // rafc -> comando para criar rápido
 const estilos = StyleSheet.create({
