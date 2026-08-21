@@ -1,8 +1,12 @@
 import { SafeAreaView } from "react-native-safe-area-context";
 import { Text, View, Image, TouchableOpacity } from "react-native";
 import { styles } from "./perfil.styles"
+import usePerfil from "../../../hooks/usePerfil";
+
 
 export default function Perfil() {
+  const { perfil } = usePerfil();
+
   return (
     <SafeAreaView style={styles.safeArea}>
       <View style={styles.container}>
@@ -15,8 +19,8 @@ export default function Perfil() {
             source={require("../../../../assets/imgs/usuario.png")} // Substitua pela foto de perfil real
             style={styles.avatar}
           />
-          <Text style={styles.userName}>Késsia Milena</Text>
-          <Text style={styles.userEmail}>kessia@emai.com</Text>
+          <Text style={styles.userName}>{perfil?.nome}</Text>
+          <Text style={styles.userEmail}>{perfil?.email}</Text>
         </View>
 
         {/* Botão de Sair da Conta */}
